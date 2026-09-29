@@ -15,12 +15,12 @@ on public.products for select
 to anon, authenticated
 using (active = true);
 
-create policy "Authenticated admins can manage products"
+create policy "Admin can manage products"
 on public.products for all
 to authenticated
-using (true)
-with check (true);
+using ((auth.jwt() ->> 'email') = 'Nurudeenosenat807@gmail.com')
+with check ((auth.jwt() ->> 'email') = 'Nurudeenosenat807@gmail.com');
 
--- Create a Storage bucket named "products" in Supabase and make it public
--- before using image uploads. For stronger production security, restrict
--- Storage writes to your admin user rather than making the bucket writable by everyone.
+-- In Supabase Storage, create a public bucket named "products".
+-- Add Storage policies that allow INSERT/UPDATE/DELETE only when
+-- (auth.jwt() ->> 'email') = 'Nurudeenosenat807@gmail.com'.
