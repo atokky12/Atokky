@@ -1,0 +1,13 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ATOKKY | Women's Fashion</title>
+<style>
+body{margin:0;font-family:Arial;background:#fffaf6;color:#292321}nav{padding:20px 7%;background:#fff;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eadfd4}.logo{font:700 30px Georgia;color:#8a683b;letter-spacing:3px}.hero{padding:55px 7%;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;background:#f4e9df}.hero h1{font:normal 60px Georgia;margin:12px 0}.hero p{color:#70645c;font-size:17px;line-height:1.7}.hero img{width:100%;border-radius:10px}.btn{display:inline-block;background:#8a683b;color:white;padding:13px 22px;margin-top:12px;text-decoration:none}.products{padding:60px 7%}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.card{background:#fff;border:1px solid #eadfd4}.card img{width:100%;height:280px;object-fit:cover;background:#eee}.info{padding:15px}.price{font-weight:bold;color:#8a683b;margin-top:7px}@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.hero h1{font-size:44px}.grid{grid-template-columns:1fr}}
+</style></head><body>
+<nav><div class="logo">ATOKKY</div><div>Women's Fashion Essentials</div></nav>
+<header class="hero"><div><div style="color:#8a683b;letter-spacing:3px">WELCOME TO ATOKKY</div><h1>Beautiful pieces. Made for you.</h1><p>Elegant dresses, shoes and jewellery for every occasion.</p><a class="btn" href="#shop">Shop collection</a></div><img src="hero.jpg" alt="ATOKKY fashion display"></header>
+<section class="products" id="shop"><h2 style="font:normal 38px Georgia">Featured products</h2><div class="grid" id="products"></div></section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script>
+<script>
+const {createClient}=supabase;const db=createClient(ATOKKY_SUPABASE_URL,ATOKKY_SUPABASE_ANON_KEY);
+async function load(){let {data,error}=await db.from('products').select('*').eq('active',true).order('created_at',{ascending:false});let el=document.getElementById('products');if(error){el.innerHTML='<p>Products are being prepared.</p>';return}el.innerHTML=data.map(p=>`<article class="card"><img src="${p.image_url||'placeholder.jpg'}"><div class="info"><small>${p.category}</small><h3>${p.name}</h3><div class="price">₦${Number(p.price).toLocaleString('en-NG')}</div></div></article>`).join('')||'<p>No products yet.</p>'}load();
+</script></body></html>
